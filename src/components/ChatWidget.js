@@ -1,34 +1,126 @@
+// src/components/ChatWidget.jsx
+
 import React, { useEffect, useRef, useState } from "react";
+import { portfolioData } from "../data/portfolioData";
 
-function buildReply(prompt) {
-  const normalized = prompt.trim().toLowerCase();
+// Config
+const MAX_FREE_MESSAGES = 5;
+const RESUME_URL = portfolioData?.personal?.links?.resume || "";
 
-  if (normalized.includes("contact") || normalized.includes("email")) {
-    return "You can reach Atharva from the Contact page, including LinkedIn and email details.";
+// Renders assistant message with bullets, links, and resume button
+function renderAssistantMessage(text) {
+  const lines = text.split("\n").filter((line) => line.trim() !== "");
+
+  const hasResume =
+    RESUME_URL &&
+    lines.some(
+      (line) =>
+        line.includes(RESUME_URL) ||
+        /resume/i.test(line) ||
+        /cv/i.test(line)
+    );
+
+  return (
+    <>
+      {lines.map((line, index) => {
+        const trimmed = line.trim();
+
+        // GitHub: URL
+        if (trimmed.startsWith("GitHub:")) {
+          const url = trimmed.replace("GitHub:", "").trim();
+          return (
+            <div key={index} className="chat-link-row">
+              <a
+                href={url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="chat-link"
+              >
+                GitHub
+              </a>
+            </div>
+          );
+        }
+
+        // Live: URL
+        if (trimmed.startsWith("Live:")) {
+          const url = trimmed.replace("Live:", "").trim();
+          return (
+            <div key={index} className="chat-link-row">
+              <a
+                href={url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="chat-link"
+              >
+                Live Demo
+              </a>
+            </div>
+          );
+        }
+
+        // Bullets starting with • or -
+        if (trimmed.startsWith("•") || trimmed.startsWith("-")) {
+          return (
+            <div key={index} className="chat-bullet-line">
+              <span className="chat-bullet-dot">•</span>
+              <span>{trimmed.replace(/^[•-]\s*/, "")}</span>
+            </div>
+          );
+        }
+
+        // Fallback: plain text line
+        return (
+          <div key={index} className="chat-text-line">
+            {trimmed}
+          </div>
+        );
+      })}
+
+      {hasResume && RESUME_URL && (
+        <div className="chat-link-row">
+          <a
+            href={RESUME_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="chat-button-link"
+          >
+            Download Resume (PDF)
+          </a>
+        </div>
+      )}
+    </>
+  );
+}
+
+// Generic message renderer
+function renderMessage(message) {
+  if (message.role === "assistant") {
+    return renderAssistantMessage(message.text);
   }
 
-  if (normalized.includes("project")) {
-    return "The Projects page highlights recent builds with stack details and quick links.";
-  }
-
-  if (normalized.includes("about") || normalized.includes("experience")) {
-    return "The About page covers background, skills, and experience snapshots.";
-  }
-
-  return "Thanks for your message! I can help you explore the portfolio sections such as About, Projects, Achievements, and Contact.";
+  // User messages: plain text with simple line breaks
+  return message.text.split("\n").map((line, index) => (
+    <div key={index} className="chat-text-line">
+      {line}
+    </div>
+  ));
 }
 
 export default function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState("");
-  const [isStreaming, setIsStreaming] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState([
     {
       id: "welcome",
       role: "assistant",
-      text: "Hi! Ask anything about Atharva's portfolio.",
+      text:
+        "Hi! You can ask up to 5 questions about Atharva's projects, skills, experience, or links (resume, GitHub).",
     },
   ]);
+  const [userMessageCount, setUserMessageCount] = useState(0);
+
   const bodyRef = useRef(null);
 
   useEffect(() => {
@@ -36,9 +128,29 @@ export default function ChatWidget() {
     bodyRef.current.scrollTop = bodyRef.current.scrollHeight;
   }, [messages, isOpen]);
 
-  const sendMessage = () => {
+  const sendMessage = async () => {
     const text = input.trim();
-    if (!text || isStreaming) return;
+    if (!text || isLoading) return;
+
+    // Enforce 5-message limit (per browser session)
+    if (userMessageCount >= MAX_FREE_MESSAGES) {
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: `user-${Date.now()}`,
+          role: "user",
+          text,
+        },
+        {
+          id: `limit-${Date.now() + 1}`,
+          role: "assistant",
+          text:
+            "This browser has used the 5 free questions. To continue, please reload later or contact Atharva directly (see Contact section).",
+        },
+      ]);
+      setInput("");
+      return;
+    }
 
     const userMessage = {
       id: `user-${Date.now()}`,
@@ -47,30 +159,59 @@ export default function ChatWidget() {
     };
 
     const assistantId = `assistant-${Date.now() + 1}`;
-    const fullReply = buildReply(text);
 
     setMessages((prev) => [
       ...prev,
       userMessage,
-      { id: assistantId, role: "assistant", text: "" },
+      { id: assistantId, role: "assistant", text: "..." },
     ]);
-    setInput("");
-    setIsStreaming(true);
 
-    let index = 0;
-    const interval = window.setInterval(() => {
-      index += 2;
-      const partial = fullReply.slice(0, index);
+    setInput("");
+    setIsLoading(true);
+    setUserMessageCount((count) => count + 1);
+
+    try {
+      const history = messages
+        .filter((msg) => msg.role === "user" || msg.role === "assistant")
+        .map((msg) => ({
+          role: msg.role,
+          content: msg.text,
+        }));
+
+      const res = await fetch("/.netlify/functions/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          message: text,
+          history,
+        }),
+      });
+
+      const data = await res.json();
+
+      const replyText =
+        res.ok && typeof data.reply === "string"
+          ? data.reply
+          : data.error || "Sorry, something went wrong.";
 
       setMessages((prev) =>
-        prev.map((msg) => (msg.id === assistantId ? { ...msg, text: partial } : msg))
+        prev.map((msg) =>
+          msg.id === assistantId ? { ...msg, text: replyText } : msg
+        )
       );
-
-      if (index >= fullReply.length) {
-        window.clearInterval(interval);
-        setIsStreaming(false);
-      }
-    }, 28);
+    } catch (error) {
+      setMessages((prev) =>
+        prev.map((msg) =>
+          msg.id === assistantId
+            ? { ...msg, text: "Network error. Please try again." }
+            : msg
+        )
+      );
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -81,7 +222,9 @@ export default function ChatWidget() {
         onClick={() => setIsOpen((prev) => !prev)}
         aria-label={isOpen ? "Close chat panel" : "Open chat panel"}
       >
-        <span className="chat-fab-icon" aria-hidden="true">🤖</span>
+        <span className="chat-fab-icon" aria-hidden="true">
+          🤖
+        </span>
       </button>
 
       {isOpen && (
@@ -90,7 +233,7 @@ export default function ChatWidget() {
             <header className="chat-panel-header">
               <div>
                 <strong>Portfolio Assistant</strong>
-                <p>Ask anything about this site or Atharva's work.</p>
+                <p>Ask about projects, skills, experience, or links.</p>
               </div>
               <button
                 type="button"
@@ -112,7 +255,7 @@ export default function ChatWidget() {
                       : "chat-bubble-assistant"
                   }`}
                 >
-                  {message.text || (message.role === "assistant" ? "..." : "")}
+                  {renderMessage(message)}
                 </div>
               ))}
             </div>
@@ -124,11 +267,12 @@ export default function ChatWidget() {
                 onKeyDown={(event) => {
                   if (event.key === "Enter") sendMessage();
                 }}
-                placeholder="Type your message..."
+                placeholder="Ask e.g. 'Summarise Atharva’s experience in 3 bullets'"
                 aria-label="Chat message"
+                maxLength={700}
               />
-              <button type="button" onClick={sendMessage} disabled={isStreaming}>
-                Send
+              <button type="button" onClick={sendMessage} disabled={isLoading}>
+                {isLoading ? "..." : "Send"}
               </button>
             </div>
           </section>

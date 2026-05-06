@@ -869,6 +869,59 @@ nav {
   transform: translateX(0);
 }
 
+.chat-bubble {
+  white-space: normal;
+  line-height: 1.5;
+}
+
+.chat-text-line {
+  margin-bottom: 6px;
+}
+
+.chat-bullet-line {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.chat-bullet-dot {
+  flex-shrink: 0;
+  line-height: 1.5;
+}
+
+.chat-link-row {
+  margin: 6px 0 0 0;
+}
+
+.chat-link {
+  color: #ff4db8;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.chat-link:hover {
+  text-decoration: underline;
+}
+
+.chat-button-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 10px;
+  margin-top: 8px;
+  border-radius: 999px;
+  background: #ff4db8;
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.chat-button-link:hover {
+  background: #ff2f9f;
+}
+
 @media (max-width: 600px) {
   .chat-widget-root {
     right: 12px;
