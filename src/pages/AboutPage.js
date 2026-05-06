@@ -90,6 +90,20 @@ export default function AboutPage() {
             </div>
           </div>
 
+          <div className="about-card">
+            <h3>Hackathon</h3>
+            <div className="exp-item">
+              <div className="exp-year">2026</div>
+              <div className="exp-role">Sophiie AI Agents Hackathon</div>
+              <div className="exp-org">AI-powered Questioning Coding Tutor</div>
+              <ul className="exp-points">
+                <li>
+                  Developed an AI-powered tutoring assistant that helps students understand code — especially intimidating GitHub repositories — by asking the right questions, offering progressive hints, and guiding learning step-by-step.
+                </li>
+              </ul>
+            </div>
+          </div>
+
           {/* skills */}
           <div className="about-card skills-card">
             <h3>Technical Skills</h3>

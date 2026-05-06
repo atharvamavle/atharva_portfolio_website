@@ -7,7 +7,7 @@ export default function Navbar({ theme, toggleTheme }) {
   return (
     <nav>
       <NavLink to="/" end className="nav-logo" onClick={close}>
-        ATHARVA MAVALE ​🇵​​🇴​​🇷​​🇹​​🇫​​🇴​​🇱​​🇮​​🇴​
+        ATHARVA MAVALE
       </NavLink>
       <button
         className={`nav-toggle ${open ? "open" : ""}`}
@@ -32,9 +32,7 @@ export default function Navbar({ theme, toggleTheme }) {
         >
           <span className="theme-surface" aria-hidden="true">
             <span className="theme-switch">
-              <span className="theme-icon">
-                {theme === "light" ? "☀️" : "🌙"}
-              </span>
+              <span className="theme-icon" aria-hidden="true" />
             </span>
           </span>
         </button>
