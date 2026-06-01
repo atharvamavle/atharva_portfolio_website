@@ -137,6 +137,20 @@ export const portfolioData = {
         live: "https://your-mine-safety-live-link.com",
         github: "https://github.com/atharvamavle/autonomous-mine-safety-rag.git"
       }
+    },
+    {
+      name: "ClauseCheck AU",
+      subtitle: "AI-Powered Australian Construction Contract Risk Analyser",
+      stack: ["React", "TanStack", "FastAPI", "Claude API", "Supabase", "Stripe", "Cloudflare Workers"],
+      tags: ["legal tech", "saas", "ai", "construction", "full stack", "production"],
+      short:
+        "AI-powered SaaS that analyzes Australian construction contracts (AS 4000, GC21, ABIC) and flags time bars, liquidated damages, SoP Act deadlines, and termination risks in plain English.",
+      bestFor: ["FastAPI", "React", "Claude API", "SaaS architecture", "full-stack production"],
+      priority: 11,
+      links: {
+        live: "https://tanstack-start-app.clausecheckau.workers.dev/",
+        github: "https://github.com/atharvamavle/Contract-Guardian-Australia.git"
+      }
     }
   ],
 
