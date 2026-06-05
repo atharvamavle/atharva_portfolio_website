@@ -8,12 +8,12 @@ export const portfolioData = {
     phone: "0403-912-780",
     email: "atharvamavale26@gmail.com",
     summary:
-      "AI/ML engineer and Master of Applied AI student at Deakin University, building production-grade systems across MLOps, full-stack applications, and robotics.",
+      "AI/ML engineer and Master of Applied AI student at Deakin University, building production-grade systems across MLOps, full-stack SaaS, and robotics. Founded and solo-shipped ClauseCheck AU — a live AI SaaS analysing Australian construction contracts using Claude Opus 4.6.",
     links: {
       portfolio: "https://atharva-m.netlify.app/",
       linkedin: "https://www.linkedin.com/in/atharva-mavale-70147a1b4",
-      github: "https://github.com/atharvamavle", // TODO: replace
-    //   resume: "https://atharva-m.netlify.app/Atharva-Mavale-Resume.pdf"
+      github: "https://github.com/atharvamavle",
+      resume: "/Atharva-Mavale-Resume.pdf"
     }
   },
 
@@ -62,9 +62,9 @@ export const portfolioData = {
       company: "InnovAIte, Australia",
       years: "Oct 2025–Present",
       highlights: [
-        "Tuned a YOLO + OCR pipeline for whiteboard detection by analyzing low-recall failure cases and adjusting thresholds.",
-        "Prototyped audio feedback so detection results are usable for end users, not just research demos.",
-        "Hardened a React Native navigation app with safe-exit flows and TypeScript/runtime bug fixes."
+        "Tuned a YOLO + OCR pipeline for whiteboard detection by analyzing low-recall failure cases, adjusting confidence thresholds, and planning dataset expansion.",
+        "Prototyped audio feedback module to make detections accessible for end users, enabling integration testing beyond the research phase.",
+        "Hardened a React Native navigation app with safe-exit confirmation, consistent back/forward flows, and TypeScript/runtime bug fixes informed by OSRM routing research."
       ],
       tags: ["computer vision", "YOLO", "OCR", "React Native"]
     },
@@ -73,9 +73,8 @@ export const portfolioData = {
       company: "Deakin Competitive Robotics",
       years: "Aug 2025–Present",
       highlights: [
-        "Competed in the 2026 Australian Rover Challenge and achieved 12th place among 17 teams.",
-        "Completed rover control GUI using ROS bridge for teleoperation.",
-        "Contributed to autonomous rover and arm navigation using ROS 2 and MoveIt."
+        "Represented Deakin University at the 2026 Australian Rover Challenge (17 teams, 390+ students across 5 countries), placing 12th while applying teamwork, field problem-solving, and high-pressure debugging skills.",
+        "Completed the rover control GUI by integrating ROS bridge for teleoperation and contributing to autonomous rover and arm navigation using ROS 2 and MoveIt path planning."
       ],
       tags: ["robotics", "ROS 2", "navigation", "GUI"]
     }
@@ -83,89 +82,66 @@ export const portfolioData = {
 
   projects: [
     {
-      name: "Fit Track",
-      subtitle: "Voice-first Fitness & Calorie Tracker",
-      stack: ["Alexa", "AWS Lambda", "Python", "REST API", "React"],
-      tags: ["fitness", "voice ai", "react", "backend", "full stack"],
+      name: "ClauseCheck AU",
+      subtitle: "AI SaaS · Founder & Solo Developer",
+      stack: ["TanStack Start", "TypeScript", "FastAPI", "Claude Opus 4.6 + Haiku", "Supabase", "Stripe", "Cloudflare Workers", "GitHub Actions"],
+      tags: ["legal tech", "saas", "ai", "construction", "full stack", "production", "founder"],
       short:
-        "Voice-first fitness and calorie tracking app with Alexa logging and a React dashboard.",
-      bestFor: ["React", "full-stack", "API integration", "AWS Lambda"],
-      priority: 8,
+        "Sole founder of a live AI SaaS that analyses Australian construction contracts (AS4000, GC21, ABIC) and flags risky clauses in plain English in under 2 minutes. 12 AI eval pytest tests all green; state-specific SoP Act rules for all 8 AU states.",
+      bestFor: ["FastAPI", "Claude API", "SaaS architecture", "full-stack production", "founder"],
+      priority: 11,
       links: {
-        live: "https://your-fit-track-live-link.com",
-        github: "https://github.com/atharvamavle/fittrack-frontend.git"
+        live: "https://tanstack-start-app.clausecheckau.workers.dev/",
+        github: "https://github.com/atharvamavle/Contract-Guardian-Australia.git"
       }
     },
     {
-      name: "DermaGuard AI",
-      subtitle: "AI Skin Cancer Screening App",
-      stack: ["React", "FastAPI", "PyTorch", "EfficientNet-B4", "Google Places API"],
-      tags: ["computer vision", "healthtech", "deep learning", "full stack"],
+      name: "Fit Track",
+      subtitle: "Voice-First Fitness & Calorie Tracker",
+      stack: ["Alexa", "AWS Lambda", "Python", "REST API", "React"],
+      tags: ["fitness", "voice ai", "react", "backend", "full stack"],
       short:
-        "Skin cancer screening app with AI image analysis, PDF reports, and clinic discovery.",
-      bestFor: ["computer vision", "PyTorch", "medical AI", "FastAPI"],
-      priority: 10,
+        "End-to-end system where Alexa logs workouts/meals via Lambda into a Render-hosted backend with a React dashboard. Open-source with ~80 clones and ~40 unique cloners over 14 days.",
+      bestFor: ["React", "full-stack", "API integration", "AWS Lambda"],
+      priority: 8,
       links: {
-        live: "https://your-dermaguard-live-link.com",
-        github: "https://github.com/atharvamavle/ai-skin-cancer-detector.git"
+        live: null,
+        github: "https://github.com/atharvamavle/fittrack-frontend.git",
+        githubBackend: "https://github.com/atharvamavle/fittrack-backend.git"
       }
     },
     {
       name: "StudyMate AI",
       subtitle: "Agentic Socratic Tutor",
-      stack: ["FastAPI", "Streamlit", "GPT-4o-mini", "LangChain"],
+      stack: ["FastAPI", "Streamlit", "GPT-4o-mini", "LangChain", "Python", "Render"],
       tags: ["llm", "agentic ai", "edtech", "genai"],
       short:
-        "Repo-aware AI tutor with 3-level adaptive teaching and a FastAPI backend on Render.",
+        "Repo-aware AI tutor with 3-level adaptive teaching serving 5+ users. Submitted to Sophiie AI Agents Hackathon among 200+ Australian developers for a $5K prize.",
       bestFor: ["LLM", "LangChain", "AI tutor", "agentic systems"],
       priority: 9,
       links: {
-        live: "https://your-studymate-live-link.com",
+        live: "https://atharvamavle-hackathon-uiapp-ps07su.streamlit.app/",
         github: "https://github.com/atharvamavle/hackathon.git"
       }
     },
     {
       name: "Mine Safety RAG Copilot",
       subtitle: "Industrial Safety Q&A and Monitoring",
-      stack: ["FastAPI", "React", "Python", "RAG", "YOLO"],
+      stack: ["FastAPI", "React", "Python", "RAG", "YOLO", "LangChain"],
       tags: ["rag", "nlp", "computer vision", "safety", "yolo"],
       short:
-        "Safety assistant combining RAG over manuals with YOLO PPE detection for real-time monitoring.",
+        "Replaced keyword search with NLP Q&A citing 10+ manuals; reduced query time by 75% with 1,000+ chunk RAG pipeline. Integrating YOLO PPE detection across 3 camera feeds.",
       bestFor: ["RAG", "YOLO", "safety AI", "document QA"],
       priority: 9,
       links: {
-        live: "https://your-mine-safety-live-link.com",
+        live: null,
         github: "https://github.com/atharvamavle/autonomous-mine-safety-rag.git"
       }
     },
     {
-      name: "ClauseCheck AU",
-      subtitle: "AI-Powered Australian Construction Contract Risk Analyser",
-      stack: ["React", "TanStack", "FastAPI", "Claude API", "Supabase", "Stripe", "Cloudflare Workers"],
-      tags: ["legal tech", "saas", "ai", "construction", "full stack", "production"],
+      name: "DermaGuard AI",
+      subtitle: "AI Skin Cancer Screening App",
+      stack: ["React", "TypeScript", "FastAPI", "PyTorch", "EfficientNet-B4"],
+      tags: ["computer vision", "healthtech", "deep learning", "full stack"],
       short:
-        "AI-powered SaaS that analyzes Australian construction contracts (AS 4000, GC21, ABIC) and flags time bars, liquidated damages, SoP Act deadlines, and termination risks in plain English.",
-      bestFor: ["FastAPI", "React", "Claude API", "SaaS architecture", "full-stack production"],
-      priority: 11,
-      links: {
-        live: "https://tanstack-start-app.clausecheckau.workers.dev/",
-        github: "https://github.com/atharvamavle/Contract-Guardian-Australia.git"
-      }
-    }
-  ],
-
-  certifications: [
-    {
-      name: "Python Programming",
-      provider: "Techgen Institute",
-      years: "Sep–Dec 2023",
-      summary: "60-hour intensive covering OOP and data structures; built 5 projects."
-    },
-    {
-      name: "After Effects",
-      provider: "Frameboxx Vashi",
-      years: "Mar–May 2024",
-      summary: "40-hour course in motion design and compositing."
-    }
-  ]
-};
+        "PyTorch Efficient
