@@ -94,4 +94,21 @@ export default async (req) => {
         { role: "system", content: SYSTEM_PROMPT },
         {
           role: "system",
-          content: `Portfolio data:\n${JSON.stringify(portfolioData, nu
+          content: `Portfolio data:\n${JSON.stringify(portfolioData, null, 2)}`
+        },
+        ...safeHistory,
+        { role: "user", content: message }
+      ]
+    });
+
+    const reply =
+      response.output_text?.trim() ||
+      "Sorry, I could not generate a response.";
+
+    return jsonResponse({ reply }, 200);
+  } catch (error) {
+    console.error("Chat function error:", error);
+
+    return jsonResponse({ error: "Internal server error" }, 500);
+  }
+};

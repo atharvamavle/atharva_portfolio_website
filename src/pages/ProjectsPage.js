@@ -133,4 +133,20 @@ export default function ProjectsPage() {
                   </a>
                   {p.githubBackend && (
                     <a href={p.githubBackend} target="_blank" rel="noreferrer" className="proj-link">
-            
+                      Backend Repo →
+                    </a>
+                  )}
+                  {p.live && (
+                    <a href={p.live} target="_blank" rel="noreferrer" className="proj-link primary">
+                      Live Demo ↗
+                    </a>
+                  )}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}

@@ -137,4 +137,44 @@ export default function AboutPage() {
               <div className="exp-role">Master of Applied AI (Professional)</div>
               <div className="exp-org">Deakin University · Melbourne, Australia</div>
             </div>
-     
+            <div className="exp-item">
+              <div className="exp-year">2020 – 2023 · CGPA 8.38</div>
+              <div className="exp-role">Bachelor of Science in IT</div>
+              <div className="exp-org">Pillai College · Mumbai, India</div>
+            </div>
+            <h3 style={{marginTop:"22px"}}>Hackathon</h3>
+            <div className="exp-item">
+              <div className="exp-year">Feb 2026</div>
+              <div className="exp-role">Sophiie AI Agents Hackathon</div>
+              <div className="exp-org">200+ Australian developers · $5K prize</div>
+              <ul className="exp-points">
+                <li>Built StudyMate AI — an agentic Socratic tutor that adapts explanations to any GitHub repo with 3-level progressive teaching.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="about-card skills-card reveal">
+            <h3>Technical Skills</h3>
+            {SKILLS.map(s => (
+              <div className="skill-row" key={s.name}>
+                <div className="skill-top"><span>{s.name}</span><span>{s.pct}%</span></div>
+                <div className="skill-track">
+                  <div className="skill-fill" style={{ width: s.pct + "%" }} />
+                </div>
+              </div>
+            ))}
+          </div>
+
+        </div>
+
+        <div className="contact-row reveal">
+          <a href="https://www.linkedin.com/in/atharva-mavale-70147a1b4" target="_blank" rel="noreferrer" className="contact-chip">💼 LinkedIn</a>
+          <a href="https://github.com/atharvamavle" target="_blank" rel="noreferrer" className="contact-chip">🐙 GitHub</a>
+          <a href="mailto:atharvamavale26@gmail.com" className="contact-chip">✉️ atharvamavale26@gmail.com</a>
+          <a href="/Atharva-Mavale-Resume.pdf" download className="contact-chip">📄 Download Resume</a>
+        </div>
+
+      </div>
+    </div>
+  );
+}

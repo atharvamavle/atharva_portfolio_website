@@ -144,4 +144,56 @@ export const portfolioData = {
       stack: ["React", "TypeScript", "FastAPI", "PyTorch", "EfficientNet-B4"],
       tags: ["computer vision", "healthtech", "deep learning", "full stack"],
       short:
-        "PyTorch Efficient
+        "PyTorch EfficientNet-B4 skin risk assessment platform enabling accessible, early-stage medical screening via the web. Research proof-of-concept with modular full-stack architecture.",
+      bestFor: ["computer vision", "PyTorch", "medical AI", "FastAPI"],
+      priority: 10,
+      links: {
+        live: null,
+        github: "https://github.com/atharvamavle/ai-skin-cancer-detector.git"
+      }
+    }
+  ],
+
+  personality: {
+    summary: "Atharva is a builder first — he ships production-grade systems, not just demos. He's driven by curiosity across AI, robotics, and SaaS, and thrives under competitive pressure. Methodical when debugging, fast when building.",
+    traits: ["Builder mindset", "Detail-oriented", "Competitive & driven", "Curious across domains", "Pragmatic problem-solver", "Collaborative under pressure"],
+    workingStyle: "Hands-on, full-stack ownership. Atharva takes a project from idea to deployed product. He prioritises reliability, iterates on real user feedback, and is comfortable owning every layer of a system. He's at his best in fast-moving, high-stakes environments.",
+    values: [
+      "Shipping real things over polishing prototypes",
+      "Making AI accessible — not just academic",
+      "Learning by building in production",
+      "Honesty and directness in engineering decisions"
+    ],
+    interests: [
+      "AI/ML research and real-world applications",
+      "Robotics and autonomous systems",
+      "Healthcare technology and medical AI",
+      "SaaS product building and entrepreneurship",
+      "Anime — runs a YouTube channel called Anime Algo"
+    ],
+    funFacts: [
+      "Founded and solo-shipped ClauseCheck AU — a live AI SaaS product — while studying full-time",
+      "Competed at the 2026 Australian Rover Challenge representing Deakin University (12th place among 17 international teams)",
+      "Received the Best Team Culture award with Deakin Competitive Robotics",
+      "Runs a YouTube channel called Anime Algo that blends anime and algorithmic thinking",
+      "Originally from Mumbai, India — now based in Geelong, Australia"
+    ],
+    openToWork: true,
+    goals: "Actively seeking AI/ML engineering, full-stack, or software engineering roles in Australia, working on production-grade systems with real-world impact."
+  },
+
+  certifications: [
+    {
+      name: "Python Programming",
+      provider: "Techgen Institute",
+      years: "Sep–Dec 2023",
+      summary: "60-hour intensive covering OOP and data structures; built 5 projects."
+    },
+    {
+      name: "After Effects",
+      provider: "Frameboxx Vashi",
+      years: "Mar–May 2024",
+      summary: "40-hour course in motion design and compositing."
+    }
+  ]
+};

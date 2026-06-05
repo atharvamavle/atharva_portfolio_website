@@ -204,3 +204,117 @@ export default function ChatWidget() {
 
     setMessages((prev) => [...prev, userMessage, { id: assistantId, role: "assistant", text: "..." }]);
     setInput("");
+    setIsLoading(true);
+    setUserMessageCount((count) => count + 1);
+
+    try {
+      const history = messages
+        .filter((msg) => msg.role === "user" || msg.role === "assistant")
+        .map((msg) => ({ role: msg.role, content: msg.text }));
+
+      const res = await fetch("/.netlify/functions/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: text, history }),
+      });
+
+      const data = await res.json();
+      const replyText = res.ok && typeof data.reply === "string"
+        ? data.reply
+        : data.error || "Sorry, something went wrong.";
+
+      setMessages((prev) =>
+        prev.map((msg) => msg.id === assistantId ? { ...msg, text: replyText } : msg)
+      );
+    } catch (error) {
+      setMessages((prev) =>
+        prev.map((msg) => msg.id === assistantId ? { ...msg, text: "Network error. Please try again." } : msg)
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <div className="chat-widget-root">
+
+      {/* Nudge popup */}
+      {showNudge && !isOpen && (
+        <div
+          className="chat-nudge"
+          onClick={() => { setShowNudge(false); setIsOpen(true); }}
+        >
+          <div className="chat-nudge-avatar">🤖</div>
+          <div className="chat-nudge-body">
+            <span className="chat-nudge-name">Luffy Bot</span>
+            <span className="chat-nudge-msg">Ask me more about Atharva! 👋</span>
+          </div>
+          <button
+            style={{ background:"none", border:"none", outline:"none", cursor:"pointer", color:"var(--muted)", fontSize:"1.1rem", padding:"0 2px", lineHeight:1 }}
+            onClick={e => { e.stopPropagation(); setShowNudge(false); }}
+          >×</button>
+        </div>
+      )}
+
+      {/* FAB button — fully transparent, no browser chrome */}
+      <button
+        type="button"
+        className={`chat-fab ${isOpen ? "chat-fab-open" : ""}`}
+        onClick={() => setIsOpen((prev) => !prev)}
+        aria-label={isOpen ? "Close chat" : "Open chat"}
+        style={FAB_STYLE}
+      >
+        {isOpen ? <CloseIcon /> : <RobotIcon />}
+      </button>
+
+      {/* Chat panel */}
+      {isOpen && (
+        <div className="chat-panel-overlay">
+          <section className="chat-panel" aria-live="polite">
+            <header className="chat-panel-header">
+              <div>
+                <strong>Portfolio Assistant</strong>
+                <p>
+                  {userMessageCount >= MAX_FREE_MESSAGES
+                    ? "No questions remaining."
+                    : `${MAX_FREE_MESSAGES - userMessageCount} question${MAX_FREE_MESSAGES - userMessageCount === 1 ? "" : "s"} remaining · Atharva only`}
+                </p>
+              </div>
+              <button
+                type="button"
+                className="chat-close"
+                onClick={() => setIsOpen(false)}
+                aria-label="Close"
+              >×</button>
+            </header>
+
+            <div className="chat-panel-body" ref={bodyRef}>
+              {messages.map((message) => (
+                <div
+                  key={message.id}
+                  className={`chat-bubble ${message.role === "user" ? "chat-bubble-user" : "chat-bubble-assistant"}`}
+                >
+                  {renderMessage(message)}
+                </div>
+              ))}
+            </div>
+
+            <div className="chat-panel-input">
+              <input
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={(e) => { if (e.key === "Enter") sendMessage(); }}
+                placeholder="Ask e.g. 'What is Atharva like?'"
+                aria-label="Chat message"
+                maxLength={700}
+              />
+              <button type="button" onClick={sendMessage} disabled={isLoading}>
+                {isLoading ? "..." : "Send"}
+              </button>
+            </div>
+          </section>
+        </div>
+      )}
+    </div>
+  );
+}
