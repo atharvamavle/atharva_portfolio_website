@@ -166,7 +166,9 @@ export default function ChatWidget() {
       text: "Hi! Ask me anything about Atharva — projects, skills, experience, or personality. You have 3 questions.",
     },
   ]);
-  const [userMessageCount, setUserMessageCount] = useState(0);
+  const [userMessageCount, setUserMessageCount] = useState(
+    () => parseInt(localStorage.getItem("chat-msg-count") || "0", 10)
+  );
   const bodyRef = useRef(null);
 
   // Show nudge 2s after mount, CSS auto-dissolves it at 10s, remove from DOM at 12s
@@ -205,7 +207,11 @@ export default function ChatWidget() {
     setMessages((prev) => [...prev, userMessage, { id: assistantId, role: "assistant", text: "..." }]);
     setInput("");
     setIsLoading(true);
-    setUserMessageCount((count) => count + 1);
+    setUserMessageCount((count) => {
+      const next = count + 1;
+      localStorage.setItem("chat-msg-count", String(next));
+      return next;
+    });
 
     try {
       const history = messages
