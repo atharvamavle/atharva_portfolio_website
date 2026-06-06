@@ -7,6 +7,7 @@ import AchievementsPage from "./pages/AchievementsPage";
 import ContactPage from "./pages/ContactPage";
 import Navbar from "./components/Navbar";
 import ChatWidget from "./components/ChatWidget";
+import ParticleBackground from "./components/ParticleBackground";
 
 export default function App() {
   const [theme, setTheme] = useState(
@@ -58,6 +59,8 @@ export default function App() {
 
   return (
     <>
+      {/* Particle network background */}
+      <ParticleBackground />
       {/* Cursor glow overlay */}
       <div ref={glowRef} className="cursor-glow" aria-hidden="true" />
 
