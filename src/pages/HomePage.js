@@ -39,7 +39,11 @@ export default function HomePage() {
               <img src={require("../assets/photo.png")} style={{width:"160px",height:"200px",borderRadius:"18px",objectFit:"cover",border:"2px solid rgba(255,255,255,0.07)"}} alt="Atharva" />
               <div>
                 <div className="hero-label">AI Engineer · Founder · Deakin University</div>
-                <h1 className="hero-name">ATHARVA<br/>SANTOSH<br/>MAVALE.</h1>
+                <h1 className="hero-name">
+                  <span className="hero-word"><span className="hero-word-inner">ATHARVA</span></span>{" "}
+                  <span className="hero-word"><span className="hero-word-inner" style={{animationDelay:"0.18s"}}>SANTOSH</span></span>{" "}
+                  <span className="hero-word"><span className="hero-word-inner" style={{animationDelay:"0.31s"}}>MAVALE.</span></span>
+                </h1>
                 <p className="hero-desc">
                   Founder of <strong style={{color:"var(--pink)"}}>ClauseCheck AU</strong> — a live AI SaaS. Master of Applied AI student at Deakin, building production-grade systems across LLMs, computer vision, and robotics. Based in Geelong, Australia 🇦🇺
                 </p>
