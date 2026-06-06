@@ -1,44 +1,44 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import AboutPage from "./pages/AboutPage";
 import ProjectsPage from "./pages/ProjectsPage";
 import AchievementsPage from "./pages/AchievementsPage";
 import ContactPage from "./pages/ContactPage";
-import Navbar from "./components/Navbar";
 import ChatWidget from "./components/ChatWidget";
 import ParticleBackground from "./components/ParticleBackground";
 
 export default function App() {
-  const [theme, setTheme] = useState(
-    () => localStorage.getItem("portfolio-theme") || "dark"
-  );
   const glowRef = useRef(null);
+  const dotRef  = useRef(null);
   const location = useLocation();
 
-  // Theme
+  // Apply saved theme on first load
   useEffect(() => {
-    document.body.classList.toggle("light-theme", theme === "light");
-    localStorage.setItem("portfolio-theme", theme);
-  }, [theme]);
+    const saved = localStorage.getItem("portfolio-theme") || "dark";
+    document.body.classList.toggle("light-theme", saved === "light");
+  }, []);
 
-  // Cursor glow
+  // Neon cursor — halo + dot
   useEffect(() => {
-    const el = glowRef.current;
-    if (!el) return;
+    const halo = glowRef.current;
+    const dot  = dotRef.current;
+    if (!halo || !dot) return;
     let raf;
     const move = (e) => {
       cancelAnimationFrame(raf);
       raf = requestAnimationFrame(() => {
-        el.style.left = e.clientX + "px";
-        el.style.top  = e.clientY + "px";
+        halo.style.left = e.clientX + "px";
+        halo.style.top  = e.clientY + "px";
+        dot.style.left  = e.clientX + "px";
+        dot.style.top   = e.clientY + "px";
       });
     };
     window.addEventListener("mousemove", move);
     return () => { window.removeEventListener("mousemove", move); cancelAnimationFrame(raf); };
   }, []);
 
-  // Global scroll-reveal — picks up every .reveal element
+  // Global scroll-reveal
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => entries.forEach(e => {
@@ -50,27 +50,21 @@ export default function App() {
       document.querySelectorAll(".reveal:not(.is-visible)").forEach(el => observer.observe(el));
 
     attach();
-    // Re-attach after route changes give React time to render
     const t = setTimeout(attach, 100);
     return () => { observer.disconnect(); clearTimeout(t); };
   }, [location.pathname]);
 
-  const toggleTheme = () => setTheme(c => c === "light" ? "dark" : "light");
-
   return (
     <>
-      {/* Particle network background */}
       <ParticleBackground />
-      {/* Cursor glow overlay */}
       <div ref={glowRef} className="cursor-glow" aria-hidden="true" />
-
-      <Navbar theme={theme} toggleTheme={toggleTheme} />
+      <div ref={dotRef}  className="cursor-dot"  aria-hidden="true" />
       <Routes>
-        <Route path="/"            element={<HomePage />} />
-        <Route path="/about"       element={<AboutPage />} />
-        <Route path="/projects"    element={<ProjectsPage />} />
+        <Route path="/"             element={<HomePage />} />
+        <Route path="/about"        element={<AboutPage />} />
+        <Route path="/projects"     element={<ProjectsPage />} />
         <Route path="/achievements" element={<AchievementsPage />} />
-        <Route path="/contact"     element={<ContactPage />} />
+        <Route path="/contact"      element={<ContactPage />} />
       </Routes>
       <ChatWidget />
     </>

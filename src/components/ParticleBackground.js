@@ -100,7 +100,7 @@ export default function ParticleBackground() {
       colorIdx: Math.floor(Math.random() * COLORS_DARK.length),
     }));
 
-    const isDark = () => document.documentElement.getAttribute("data-theme") !== "light";
+    const isDark = () => !document.body.classList.contains("light-theme");
 
     const draw = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);

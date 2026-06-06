@@ -69,6 +69,11 @@ body.light-theme .nav-theme-btn,
 body.light-theme .nav-toggle span {
   color: var(--text);
 }
+/* Preserve white text on purple buttons in light mode */
+body.light-theme .cc-live-btn,
+body.light-theme .cc-live-btn:hover {
+  color: #fff !important;
+}
 
 body.light-theme a:hover,
 body.light-theme a.active,
@@ -1346,24 +1351,52 @@ body.light-theme .about-otw-badge {
    ══════════════════════════════════════════════════════════════ */
 
 /* ── Cursor glow ─────────────────────────────────────────────── */
+/* ── Neon cursor: large ambient halo ─────────────────────────── */
 .cursor-glow {
   position: fixed;
   top: 0; left: 0;
-  width: 500px; height: 500px;
+  width: 420px; height: 420px;
   border-radius: 50%;
   pointer-events: none;
-  z-index: 1;
+  z-index: 9998;
   transform: translate(-50%, -50%);
   background: radial-gradient(circle at center,
-    rgba(124,58,237,0.07) 0%,
-    rgba(124,58,237,0.03) 40%,
+    rgba(124,58,237,0.18) 0%,
+    rgba(124,58,237,0.07) 35%,
     transparent 70%);
-  transition: left 0.08s linear, top 0.08s linear;
+  transition: left 0.06s linear, top 0.06s linear;
 }
 body.light-theme .cursor-glow {
   background: radial-gradient(circle at center,
-    rgba(109,40,217,0.05) 0%,
-    transparent 65%);
+    rgba(109,40,217,0.13) 0%,
+    rgba(109,40,217,0.05) 35%,
+    transparent 68%);
+}
+
+/* ── Neon cursor: bright dot ─────────────────────────────────── */
+.cursor-dot {
+  position: fixed;
+  top: 0; left: 0;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  background: #c4b5fd;
+  box-shadow:
+    0 0 4px 2px rgba(196,181,253,0.9),
+    0 0 10px 4px rgba(139,92,246,0.7),
+    0 0 22px 8px rgba(124,58,237,0.5),
+    0 0 40px 14px rgba(109,40,217,0.25);
+  transition: left 0.03s linear, top 0.03s linear;
+}
+body.light-theme .cursor-dot {
+  background: #7c3aed;
+  box-shadow:
+    0 0 4px 2px rgba(124,58,237,0.9),
+    0 0 10px 4px rgba(109,40,217,0.7),
+    0 0 22px 8px rgba(91,33,182,0.4),
+    0 0 40px 14px rgba(76,29,149,0.2);
 }
 
 /* ── Scroll reveal ───────────────────────────────────────────── */
@@ -1701,5 +1734,5 @@ nav       { z-index: 200; }
 .chat-widget-root { z-index: 320; }
 .cursor-glow      { z-index: 1; }
 
-/* Tone down particle on light mode */
-body.light-theme canvas[aria-hidden] { opacity: 0.25 !important; }
+/* Particle visibility in light mode — keep it visible but subtle */
+body.light-theme canvas[aria-hidden] { opacity: 0.6 !important; }
