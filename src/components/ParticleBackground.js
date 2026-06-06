@@ -73,10 +73,14 @@ export default function ParticleBackground() {
     resize();
     window.addEventListener("resize", resize);
 
-    const onMove = (e) => { mouse.x = e.clientX; mouse.y = e.clientY; };
-    const onLeave = () => { mouse.x = -9999; mouse.y = -9999; };
-    window.addEventListener("mousemove", onMove);
-    window.addEventListener("mouseleave", onLeave);
+    // Only wire up mouse repulsion on pointer (non-touch) devices
+    const isTouch = window.matchMedia("(pointer: coarse)").matches;
+    const onMove  = (e) => { mouse.x = e.clientX; mouse.y = e.clientY; };
+    const onLeave = () =>  { mouse.x = -9999; mouse.y = -9999; };
+    if (!isTouch) {
+      window.addEventListener("mousemove", onMove);
+      window.addEventListener("mouseleave", onLeave);
+    }
 
     // Particles (dots)
     const particles = Array.from({ length: PARTICLE_COUNT }, () => ({
@@ -214,8 +218,10 @@ export default function ParticleBackground() {
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", resize);
-      window.removeEventListener("mousemove", onMove);
-      window.removeEventListener("mouseleave", onLeave);
+      if (!isTouch) {
+        window.removeEventListener("mousemove", onMove);
+        window.removeEventListener("mouseleave", onLeave);
+      }
     };
   }, []);
 

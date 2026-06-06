@@ -19,8 +19,9 @@ export default function App() {
     document.body.classList.toggle("light-theme", saved === "light");
   }, []);
 
-  // Neon cursor — halo + dot
+  // Neon cursor — halo + dot (mouse-only, skip on touch devices)
   useEffect(() => {
+    if (window.matchMedia("(pointer: coarse)").matches) return;
     const halo = glowRef.current;
     const dot  = dotRef.current;
     if (!halo || !dot) return;

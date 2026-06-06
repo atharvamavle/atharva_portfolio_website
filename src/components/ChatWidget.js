@@ -66,65 +66,72 @@ function renderMessage(message) {
   ));
 }
 
-// Robot SVG icon
-const RobotIcon = () => (
-  <svg width="48" height="48" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+// Robot SVG icon — with blinking eyes via CSS classes
+const RobotIcon = ({ size = 56 }) => (
+  <svg width={size} height={size} viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
     <defs>
       <linearGradient id="rHG" x1="6" y1="13" x2="26" y2="33" gradientUnits="userSpaceOnUse">
-        <stop offset="0%" stopColor="#f8f8f8"/>
-        <stop offset="100%" stopColor="#c8c8cc"/>
+        <stop offset="0%" stopColor="#f0eeff"/>
+        <stop offset="100%" stopColor="#c4b5fd"/>
       </linearGradient>
       <linearGradient id="rVG" x1="7" y1="18" x2="25" y2="28" gradientUnits="userSpaceOnUse">
-        <stop offset="0%" stopColor="#6dd5f0"/>
-        <stop offset="100%" stopColor="#1a7fc4"/>
+        <stop offset="0%" stopColor="#8b5cf6"/>
+        <stop offset="100%" stopColor="#4c1d95"/>
       </linearGradient>
       <linearGradient id="rBG" x1="9" y1="32" x2="23" y2="41" gradientUnits="userSpaceOnUse">
-        <stop offset="0%" stopColor="#3d4f6e"/>
-        <stop offset="100%" stopColor="#1e2d45"/>
+        <stop offset="0%" stopColor="#3b1f6e"/>
+        <stop offset="100%" stopColor="#1e0d45"/>
       </linearGradient>
       <linearGradient id="rBB" x1="24" y1="1" x2="41" y2="13" gradientUnits="userSpaceOnUse">
-        <stop offset="0%" stopColor="#8ed45a"/>
-        <stop offset="100%" stopColor="#5aaa28"/>
+        <stop offset="0%" stopColor="#a78bfa"/>
+        <stop offset="100%" stopColor="#7c3aed"/>
       </linearGradient>
       <filter id="rDS">
-        <feDropShadow dx="0" dy="1.5" stdDeviation="1.5" floodColor="rgba(0,0,0,0.35)"/>
+        <feDropShadow dx="0" dy="1.5" stdDeviation="1.5" floodColor="rgba(124,58,237,0.45)"/>
       </filter>
       <filter id="rSS">
-        <feDropShadow dx="0" dy="1" stdDeviation="1" floodColor="rgba(0,0,0,0.25)"/>
+        <feDropShadow dx="0" dy="1" stdDeviation="1" floodColor="rgba(0,0,0,0.3)"/>
+      </filter>
+      <filter id="rGlow">
+        <feDropShadow dx="0" dy="0" stdDeviation="2" floodColor="rgba(167,139,250,0.8)"/>
       </filter>
     </defs>
     {/* Chat bubble */}
     <rect x="24" y="1" width="17" height="12" rx="4" fill="url(#rBB)" filter="url(#rDS)"/>
-    <circle cx="29" cy="7" r="1.4" fill="#1e4010"/>
-    <circle cx="33" cy="7" r="1.4" fill="#1e4010"/>
-    <circle cx="37" cy="7" r="1.4" fill="#1e4010"/>
-    <path d="M26 13 L24 17 L31 13Z" fill="#5aaa28"/>
-    <rect x="26" y="3" width="6" height="2.5" rx="1.2" fill="rgba(255,255,255,0.3)"/>
+    <circle cx="29" cy="7" r="1.4" fill="#1e0d45"/>
+    <circle cx="33" cy="7" r="1.4" fill="#1e0d45"/>
+    <circle cx="37" cy="7" r="1.4" fill="#1e0d45"/>
+    <path d="M26 13 L24 17 L31 13Z" fill="#7c3aed"/>
+    <rect x="26" y="3" width="6" height="2.5" rx="1.2" fill="rgba(255,255,255,0.35)"/>
     {/* Antenna */}
-    <rect x="15" y="5" width="2" height="9" rx="1" fill="#b0b0b8"/>
-    <circle cx="16" cy="4" r="3" fill="#FFD700" filter="url(#rDS)"/>
-    <circle cx="15" cy="3" r="1.1" fill="rgba(255,255,255,0.6)"/>
+    <rect x="15" y="5" width="2" height="9" rx="1" fill="#9ca3af"/>
+    <circle cx="16" cy="4" r="3" fill="#a78bfa" filter="url(#rGlow)"/>
+    <circle cx="15" cy="3" r="1.1" fill="rgba(255,255,255,0.7)"/>
     {/* Head */}
     <rect x="5" y="14" width="22" height="19" rx="7" fill="url(#rHG)" filter="url(#rDS)"/>
-    <rect x="8" y="15.5" width="9" height="4" rx="2" fill="rgba(255,255,255,0.55)"/>
+    <rect x="8" y="15.5" width="9" height="4" rx="2" fill="rgba(255,255,255,0.45)"/>
     {/* Visor */}
     <rect x="7.5" y="18.5" width="17" height="10" rx="4" fill="url(#rVG)" filter="url(#rSS)"/>
-    <rect x="8.5" y="19.2" width="6" height="2.5" rx="1.2" fill="rgba(255,255,255,0.35)"/>
-    {/* Eyes */}
+    <rect x="8.5" y="19.2" width="6" height="2.5" rx="1.2" fill="rgba(255,255,255,0.25)"/>
+    {/* Eyes — white bg rings */}
     <circle cx="12.5" cy="23.5" r="2.6" fill="white" opacity="0.95"/>
     <circle cx="19.5" cy="23.5" r="2.6" fill="white" opacity="0.95"/>
-    <circle cx="13.1" cy="23" r="1.1" fill="#5bbde0"/>
-    <circle cx="20.1" cy="23" r="1.1" fill="#5bbde0"/>
+    {/* Animated iris (blinking via CSS) */}
+    <ellipse className="robot-eye"     cx="12.5" cy="23.5" rx="1.2" ry="1.2" fill="#7c3aed"/>
+    <ellipse className="robot-eye robot-eye-r" cx="19.5" cy="23.5" rx="1.2" ry="1.2" fill="#7c3aed"/>
+    {/* Pupil gleam */}
+    <circle cx="12.9" cy="23.1" r="0.45" fill="rgba(255,255,255,0.85)"/>
+    <circle cx="19.9" cy="23.1" r="0.45" fill="rgba(255,255,255,0.85)"/>
     {/* Ears */}
-    <rect x="2" y="19" width="4" height="7" rx="2" fill="#e74c3c" filter="url(#rSS)"/>
-    <rect x="26" y="19" width="4" height="7" rx="2" fill="#e74c3c" filter="url(#rSS)"/>
-    <rect x="2.8" y="20.5" width="1.5" height="4" rx="0.7" fill="rgba(255,255,255,0.25)"/>
+    <rect x="2"  y="19" width="4" height="7" rx="2" fill="#7c3aed" filter="url(#rSS)"/>
+    <rect x="26" y="19" width="4" height="7" rx="2" fill="#7c3aed" filter="url(#rSS)"/>
+    <rect x="2.8" y="20.5" width="1.5" height="4" rx="0.7" fill="rgba(255,255,255,0.2)"/>
     {/* Neck */}
-    <rect x="13" y="33" width="6" height="4" rx="1.5" fill="#9a9aaa"/>
+    <rect x="13" y="33" width="6" height="4" rx="1.5" fill="#7c69aa"/>
     {/* Body */}
     <rect x="8" y="37" width="16" height="5" rx="3" fill="url(#rBG)" filter="url(#rSS)"/>
-    <circle cx="16" cy="39.5" r="2.2" fill="white" opacity="0.9"/>
-    <circle cx="16" cy="39.5" r="1" fill="#e0e0e8"/>
+    <circle cx="16" cy="39.5" r="2.2" fill="#a78bfa" opacity="0.9"/>
+    <circle cx="16" cy="39.5" r="1"   fill="#ede9fe"/>
   </svg>
 );
 
@@ -278,14 +285,21 @@ export default function ChatWidget() {
         <div className="chat-panel-overlay">
           <section className="chat-panel" aria-live="polite">
             <header className="chat-panel-header">
-              <div>
-                <strong>Portfolio Assistant</strong>
-                <p>
-                  {userMessageCount >= MAX_FREE_MESSAGES
-                    ? "No questions remaining."
-                    : `${MAX_FREE_MESSAGES - userMessageCount} question${MAX_FREE_MESSAGES - userMessageCount === 1 ? "" : "s"} remaining · Atharva only`}
-                </p>
+              <div className="chat-header-avatar">
+                <RobotIcon size={28} />
               </div>
+              <div className="chat-header-info">
+                <strong>Luffy Bot</strong>
+                <div className="chat-header-status">
+                  <span className="chat-status-dot" />
+                  <span>Online · Ask about Atharva</span>
+                </div>
+              </div>
+              <span className="chat-limit-badge">
+                {userMessageCount >= MAX_FREE_MESSAGES
+                  ? "0 left"
+                  : `${MAX_FREE_MESSAGES - userMessageCount}/${MAX_FREE_MESSAGES} left`}
+              </span>
               <button
                 type="button"
                 className="chat-close"

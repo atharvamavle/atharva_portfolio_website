@@ -51,14 +51,40 @@ function AnimatedStat({ value, label, sub, delay }) {
   );
 }
 
-const SKILLS = [
-  { name: "Python / AI-ML (PyTorch, scikit-learn, YOLO, OpenCV)", pct: 94 },
-  { name: "LLM & Agents (LangChain, Claude API, GPT-4, Hugging Face)", pct: 88 },
-  { name: "Full-Stack (FastAPI, React, TypeScript, TanStack, Vite)", pct: 86 },
-  { name: "SaaS & Production (Supabase, Stripe, Cloudflare Workers, GitHub Actions)", pct: 83 },
-  { name: "DevOps & Cloud (Azure ML SDK v2, Docker, AWS Lambda, Render)", pct: 81 },
-  { name: "Robotics (ROS 2, MoveIt, Teleoperation GUI)", pct: 80 },
+const SKILL_CATS = [
+  {
+    icon: "🧠", label: "AI & Machine Learning", level: "Expert",
+    color: "#7c3aed",
+    skills: ["PyTorch", "scikit-learn", "YOLO v8", "OpenCV", "Hugging Face", "LangChain", "Claude Opus 4.6", "GPT-4o", "NLTK", "Azure ML SDK v2"],
+  },
+  {
+    icon: "🌐", label: "Full-Stack Development", level: "Advanced",
+    color: "#0ea5e9",
+    skills: ["React", "TypeScript", "FastAPI", "TanStack Start", "Vite", "Streamlit", "REST APIs", "React Native"],
+  },
+  {
+    icon: "☁️", label: "Cloud & DevOps", level: "Advanced",
+    color: "#10b981",
+    skills: ["Cloudflare Workers", "Docker", "GitHub Actions", "AWS Lambda", "Render", "Vercel", "Netlify", "Microsoft Azure", "CI/CD"],
+  },
+  {
+    icon: "🗄️", label: "Data & Databases", level: "Advanced",
+    color: "#f59e0b",
+    skills: ["Supabase (PostgreSQL)", "MySQL", "MongoDB", "Stripe", "Supabase Auth", "Tableau"],
+  },
+  {
+    icon: "🐍", label: "Languages", level: "Expert",
+    color: "#a78bfa",
+    skills: ["Python", "TypeScript", "JavaScript", "SQL", "Java", "R"],
+  },
+  {
+    icon: "🤖", label: "Robotics & Embedded", level: "Intermediate",
+    color: "#ef4444",
+    skills: ["ROS 2 Jazzy", "MoveIt 2", "ROS Bridge", "Teleoperation GUI"],
+  },
 ];
+
+const LEVEL_COLOR = { Expert: "#4ade80", Advanced: "#60a5fa", Intermediate: "#fbbf24" };
 
 const STATS = [
   { value: "1",    label: "Live SaaS Product",   sub: "ClauseCheck AU" },
@@ -153,19 +179,41 @@ export default function AboutPage() {
             </div>
           </div>
 
-          <div className="about-card skills-card reveal">
-            <h3>Technical Skills</h3>
-            {SKILLS.map(s => (
-              <div className="skill-row" key={s.name}>
-                <div className="skill-top"><span>{s.name}</span><span>{s.pct}%</span></div>
-                <div className="skill-track">
-                  <div className="skill-fill" style={{ width: s.pct + "%" }} />
+        </div>
+
+        {/* ── SKILLS SECTION ── */}
+        <div className="skills-section reveal">
+          <div className="skills-section-header">
+            <span className="skills-section-kicker">TECHNICAL EXPERTISE</span>
+            <h2 className="skills-section-title">Technical Skills</h2>
+          </div>
+          <div className="skills-cat-grid">
+            {SKILL_CATS.map((cat) => (
+              <div
+                className="skill-cat-card"
+                key={cat.label}
+                style={{ "--cat-color": cat.color }}
+              >
+                <div className="skill-cat-head">
+                  <span className="skill-cat-icon">{cat.icon}</span>
+                  <div>
+                    <div className="skill-cat-name">{cat.label}</div>
+                    <span
+                      className="skill-cat-level"
+                      style={{ color: LEVEL_COLOR[cat.level], borderColor: LEVEL_COLOR[cat.level] + "44" }}
+                    >{cat.level}</span>
+                  </div>
+                </div>
+                <div className="skill-tags">
+                  {cat.skills.map((s, i) => (
+                    <span className="skill-tag" key={s} style={{ "--i": i }}>{s}</span>
+                  ))}
                 </div>
               </div>
             ))}
           </div>
-
         </div>
+
 
         <div className="contact-row reveal">
           <a href="https://www.linkedin.com/in/atharva-mavale-70147a1b4" target="_blank" rel="noreferrer" className="contact-chip">💼 LinkedIn</a>
