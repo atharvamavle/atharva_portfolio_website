@@ -66,20 +66,40 @@ export default function ParticleBackground() {
     let raf;
     const mouse = { x: -9999, y: -9999 };
 
+    const dpr = window.devicePixelRatio || 1;
+
     const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      canvas.width  = w * dpr;
+      canvas.height = h * dpr;
+      canvas.style.width  = w + "px";
+      canvas.style.height = h + "px";
+      ctx.scale(dpr, dpr);
     };
     resize();
     window.addEventListener("resize", resize);
 
-    // Only wire up mouse repulsion on pointer (non-touch) devices
+    // Mouse repulsion (desktop)
     const isTouch = window.matchMedia("(pointer: coarse)").matches;
     const onMove  = (e) => { mouse.x = e.clientX; mouse.y = e.clientY; };
     const onLeave = () =>  { mouse.x = -9999; mouse.y = -9999; };
     if (!isTouch) {
       window.addEventListener("mousemove", onMove);
       window.addEventListener("mouseleave", onLeave);
+    }
+
+    // Touch repulsion (mobile)
+    const onTouch = (e) => {
+      if (e.touches.length > 0) {
+        mouse.x = e.touches[0].clientX;
+        mouse.y = e.touches[0].clientY;
+      }
+    };
+    const onTouchEnd = () => { mouse.x = -9999; mouse.y = -9999; };
+    if (isTouch) {
+      window.addEventListener("touchmove", onTouch, { passive: true });
+      window.addEventListener("touchend", onTouchEnd);
     }
 
     // Particles (dots)
@@ -110,8 +130,8 @@ export default function ParticleBackground() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       const dark = isDark();
       const COLORS = dark ? COLORS_DARK : COLORS_LIGHT;
-      const dotColor = dark ? "rgba(167,139,250,0.5)" : "rgba(124,58,237,0.45)";
-      const lineColor = dark ? "rgba(124,58,237," : "rgba(109,40,217,";
+      const dotColor = dark ? "rgba(167,139,250,0.85)" : "rgba(109,40,217,0.7)";
+      const lineColor = dark ? "rgba(167,139,250," : "rgba(91,33,182,";
 
       // ── Update & draw particles ──
       for (const p of particles) {
@@ -132,10 +152,14 @@ export default function ParticleBackground() {
         if (p.y < 0) p.y = canvas.height;
         if (p.y > canvas.height) p.y = 0;
 
+        // Glow halo
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
         ctx.fillStyle = dotColor;
+        ctx.shadowColor = dark ? "rgba(167,139,250,0.9)" : "rgba(109,40,217,0.7)";
+        ctx.shadowBlur = dark ? 10 : 7;
         ctx.fill();
+        ctx.shadowBlur = 0;
       }
 
       // ── Update & draw shapes ──
@@ -156,8 +180,11 @@ export default function ParticleBackground() {
         if (s.y < -30) s.y = canvas.height + 30;
         if (s.y > canvas.height + 30) s.y = -30;
 
-        const shapeAlpha = dark ? 0.22 : 0.18;
+        const shapeAlpha = dark ? 0.5 : 0.45;
+        ctx.shadowColor = dark ? "rgba(167,139,250,0.8)" : "rgba(109,40,217,0.6)";
+        ctx.shadowBlur = dark ? 12 : 8;
         drawShape(ctx, s.type, s.x, s.y, s.size, s.angle, shapeAlpha, COLORS[s.colorIdx] + "1)");
+        ctx.shadowBlur = 0;
       }
 
       // ── Particle connections ──
@@ -167,13 +194,16 @@ export default function ParticleBackground() {
           const dy = particles[i].y - particles[j].y;
           const d = Math.sqrt(dx * dx + dy * dy);
           if (d < CONNECTION_DIST) {
-            const alpha = (1 - d / CONNECTION_DIST) * 0.3;
+            const alpha = (1 - d / CONNECTION_DIST) * (dark ? 0.6 : 0.55);
             ctx.beginPath();
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
             ctx.strokeStyle = lineColor + alpha + ")";
             ctx.lineWidth = 0.7;
+            ctx.shadowColor = dark ? "rgba(167,139,250,0.5)" : "rgba(109,40,217,0.4)";
+            ctx.shadowBlur = dark ? 6 : 4;
             ctx.stroke();
+            ctx.shadowBlur = 0;
           }
         }
 
@@ -221,6 +251,9 @@ export default function ParticleBackground() {
       if (!isTouch) {
         window.removeEventListener("mousemove", onMove);
         window.removeEventListener("mouseleave", onLeave);
+      } else {
+        window.removeEventListener("touchmove", onTouch);
+        window.removeEventListener("touchend", onTouchEnd);
       }
     };
   }, []);
