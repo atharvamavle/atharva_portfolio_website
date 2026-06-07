@@ -796,6 +796,7 @@ body.light-theme .skill-tag {
 
 /* mobile */
 @media (max-width: 600px) {
+  html, body { overflow-x: hidden; }
   nav { padding: 14px 20px; }
 
   .bento-grid { grid-template-columns: 1fr; }
@@ -812,17 +813,63 @@ body.light-theme .skill-tag {
   .hero-text > div[style] { justify-content: center; }
   .hero-text .arrow-pill { display: inline-block; }
 
-  .projects-grid { grid-template-columns: 1fr; }
+  /* ── Projects ── */
+  .projects-grid { grid-template-columns: 1fr; gap: 12px; }
+  .proj-card { flex-direction: column; }
+  .proj-thumb { height: 100px; font-size: 2.2rem; }
+  .proj-info { padding: 16px; }
+  .proj-cat { font-size: 0.58rem; letter-spacing: 1.5px; }
+  .proj-name { font-size: 0.92rem; }
+  .proj-desc { font-size: 0.8rem; line-height: 1.6; text-align: left; }
+  .proj-tags { gap: 5px; }
+  .tag { font-size: 0.68rem; padding: 3px 8px; }
+  .proj-links { flex-wrap: wrap; gap: 8px; }
 
-  .achievements-page { padding: 78px 16px 50px; }
-  .ach-hero { padding: 28px 22px; }
-  .ach-hero-title { font-size: 1.4rem; }
-  .ach-gallery    { grid-template-columns: 1fr; }
+  /* ── Achievements ── */
+  .achievements-page { padding: 78px 14px 50px; }
+  .ach-hero { padding: 22px 16px; }
+  .ach-hero-top { flex-direction: column; align-items: flex-start; gap: 4px; }
+  .ach-hero-title { font-size: 1.3rem; letter-spacing: -0.5px; line-height: 1.25; }
+  .ach-hero-title br { display: none; }
+  .ach-meta { gap: 5px; font-size: 0.72rem; flex-wrap: wrap; }
+  .ach-meta .dot { display: none; }
+  .ach-stats-bar { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .ach-stat-card { padding: 14px 10px; }
+  .ach-stat-card-value { font-size: 1.6rem; }
+  .ach-section-block { flex-direction: column; gap: 6px; padding: 16px; }
+  .ach-section-num { font-size: 1.8rem; }
+  .ach-section-content h3 { font-size: 0.95rem; }
+  .ach-section-content p { font-size: 0.8rem; line-height: 1.6; }
+  .ach-award-callout { flex-direction: column; align-items: flex-start; gap: 8px; padding: 16px; }
+  .ach-video-wrap { flex-direction: column; gap: 14px; }
+  .ach-video-side { padding: 0; }
+  .ach-gallery { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .ach-section-head h3 { font-size: 1.1rem; }
 
-  .about-hero { flex-direction: column; }
+  /* ── About ── */
+  .about-page { padding: 78px 14px 50px; }
+  .about-hero { flex-direction: column; align-items: center; text-align: center; gap: 20px; }
+  .about-hero img { width: 140px !important; height: 175px !important; }
+  .about-bio h1 { font-size: 1.6rem; letter-spacing: -0.5px; text-align: center; }
+  .about-bio p { font-size: 0.82rem; line-height: 1.65; text-align: left; }
+  .about-bio > div[style] { justify-content: center; }
+  .about-stats-row { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .about-stat { padding: 14px 10px; }
+  .about-stat-value { font-size: 1.5rem; }
   .about-cards { grid-template-columns: 1fr; }
-  .page-title h1 { font-size: 2.2rem; letter-spacing: -1px; }
+  .about-card { padding: 20px 16px; }
+  .exp-points li { font-size: 0.8rem; line-height: 1.6; }
+  .skills-cat-grid { grid-template-columns: 1fr; gap: 10px; }
+  .skill-tag { font-size: 0.7rem; padding: 3px 8px; }
+  .contact-row { gap: 8px; }
+  .contact-chip { font-size: 0.78rem; padding: 8px 14px; }
+
+  .page-title { gap: 8px; margin-bottom: 28px; }
+  .sparkle { font-size: 1rem; }
   .collab-text { font-size: 1.2rem; }
+
+  /* prevent horizontal overflow on all pages */
+  .projects-page, .achievements-page, .about-page { overflow-x: hidden; }
 }
 
 @media (max-width: 380px) {
@@ -1680,6 +1727,9 @@ body.light-theme .cursor-dot {
 @keyframes shimmer {
   0%   { background-position: 200% center; }
   100% { background-position: -200% center; }
+}
+@media (max-width: 600px) {
+  .page-title h1 { font-size: 7vw; letter-spacing: -0.5px; }
 }
 
 /* ── Floating background orbs ────────────────────────────────── */
