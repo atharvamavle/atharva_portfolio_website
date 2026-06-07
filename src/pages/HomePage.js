@@ -36,8 +36,10 @@ export default function HomePage() {
           {/* HERO */}
           <div className="card bento-hero reveal" onClick={() => nav("/about")}>
             <div className="hero-inner">
-              <img src={require("../assets/photo.png")} style={{width:"160px",height:"200px",borderRadius:"18px",objectFit:"cover",border:"2px solid rgba(255,255,255,0.07)"}} alt="Atharva" />
-              <div>
+              <div className="hero-photo-wrap">
+                <img src={require("../assets/photo.png")} className="hero-photo" alt="Atharva" />
+              </div>
+              <div className="hero-text">
                 <div className="hero-label">AI Engineer · Founder · Deakin University</div>
                 <h1 className="hero-name">
                   <span className="hero-word"><span className="hero-word-inner">ATHARVA</span></span>{" "}

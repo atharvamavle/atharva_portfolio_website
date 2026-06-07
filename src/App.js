@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import AboutPage from "./pages/AboutPage";
@@ -7,11 +7,21 @@ import AchievementsPage from "./pages/AchievementsPage";
 import ContactPage from "./pages/ContactPage";
 import ChatWidget from "./components/ChatWidget";
 import ParticleBackground from "./components/ParticleBackground";
+import PortfolioLoader from "./components/PortfolioLoader";
 
 export default function App() {
   const glowRef = useRef(null);
   const dotRef  = useRef(null);
   const location = useLocation();
+
+  // Show loader once per browser session
+  const [showLoader, setShowLoader] = useState(
+    () => !sessionStorage.getItem("portfolio-loaded")
+  );
+  const handleLoaderDone = useCallback(() => {
+    sessionStorage.setItem("portfolio-loaded", "1");
+    setShowLoader(false);
+  }, []);
 
   // Apply saved theme on first load
   useEffect(() => {
@@ -57,6 +67,8 @@ export default function App() {
 
   return (
     <>
+      {/* Main app — renders underneath the loader so the first frame
+          is already painted when the loader dissolves */}
       <ParticleBackground />
       <div ref={glowRef} className="cursor-glow" aria-hidden="true" />
       <div ref={dotRef}  className="cursor-dot"  aria-hidden="true" />
@@ -68,6 +80,9 @@ export default function App() {
         <Route path="/contact"      element={<ContactPage />} />
       </Routes>
       <ChatWidget />
+
+      {/* Cinematic intro loader — covers everything, fades out when done */}
+      {showLoader && <PortfolioLoader onComplete={handleLoaderDone} />}
     </>
   );
 }

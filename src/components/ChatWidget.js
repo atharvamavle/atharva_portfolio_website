@@ -174,7 +174,7 @@ export default function ChatWidget() {
     },
   ]);
   const [userMessageCount, setUserMessageCount] = useState(
-    () => parseInt(localStorage.getItem("chat-msg-count") || "0", 10)
+    () => parseInt(sessionStorage.getItem("chat-msg-count") || "0", 10)
   );
   const bodyRef = useRef(null);
 
@@ -216,7 +216,7 @@ export default function ChatWidget() {
     setIsLoading(true);
     setUserMessageCount((count) => {
       const next = count + 1;
-      localStorage.setItem("chat-msg-count", String(next));
+      sessionStorage.setItem("chat-msg-count", String(next));
       return next;
     });
 
