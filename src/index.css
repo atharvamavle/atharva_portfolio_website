@@ -798,10 +798,14 @@ body.light-theme .skill-tag {
   .bento-clausecheck, .bento-resume,
   .bento-collab, .bento-profiles { grid-column: 1; }
 
-  .hero-inner { flex-direction: row; align-items: center; gap: 16px; }
-  .hero-photo { width: 110px; height: 140px; }
+  .hero-inner { flex-direction: column; align-items: center; gap: 20px; text-align: center; }
+  .hero-photo { width: 140px; height: 175px; }
   .hero-photo-wrap { border-radius: 14px; }
   .hero-name { font-size: 1.7rem; letter-spacing: -0.5px; }
+  .hero-text { width: 100%; text-align: center; }
+  .hero-label { text-align: center; }
+  .hero-text > div[style] { justify-content: center; }
+  .hero-text .arrow-pill { display: inline-block; }
 
   .projects-grid { grid-template-columns: 1fr; }
 
