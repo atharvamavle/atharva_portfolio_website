@@ -10,7 +10,7 @@ const PROJECTS = [
     tags: ["TanStack Start","TypeScript","FastAPI","Claude Opus 4.6","Supabase","Stripe","Cloudflare Workers","GitHub Actions"],
     emoji: "⚖️", cls: "t5",
     github: "https://github.com/atharvamavle/Contract-Guardian-Australia.git",
-    live: "https://tanstack-start-app.clausecheckau.workers.dev/",
+    live: "https://web.clausecheckau.workers.dev/",
   },
   {
     id: 1,
